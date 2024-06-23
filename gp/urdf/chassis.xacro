@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <!-- Chassis Link -->
+    <link name="chassis_link">
+        <visual>
+            <geometry>
+                <cylinder radius="0.25" length="0.1"/>
+            </geometry>
+            <origin xyz="0 0 0.3" rpy="0 0 0"/>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder radius="0.25" length="0.1"/>
+            </geometry>
+            <origin xyz="0 0 0.3" rpy="0 0 0"/>
+        </collision>
+        <inertial>
+            <origin xyz="0 0 0.3" rpy="0 0 0"/>
+            <mass value="9.0"/>
+            <inertia 
+              ixx="0.03125" ixy="0.0" ixz="0.0"
+              iyy="0.03125" iyz="0.0"
+              izz="0.015625"/>
+        </inertial>
+    </link>
+
+    <!-- Wheel Link -->
+    <!-- <link name="wheel_link">
+        <visual>
+            <geometry>
+                <cylinder radius="0.095" length="0.05"/>
+            </geometry>
+            <origin xyz="0.3 0 0.095" rpy="0 1.5708 0"/>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder radius="0.095" length="0.05"/>
+            </geometry>
+            <origin xyz="0.3 0 0.095" rpy="0 1.5708 0"/>
+        </collision>
+        <inertial>
+            <origin xyz="0.3 0 0.095" rpy="0 1.5708 0"/>
+            <mass value="0.25"/>
+            <inertia 
+              ixx="0.000307" ixy="0.0" ixz="0.0"
+              iyy="0.000307" iyz="0.0"
+              izz="0.0001535"/>
+        </inertial>
+    </link> -->
+
+    <!-- Chassis Joint -->
+    <joint name="chassis_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="chassis_link"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint>
+
+    <!-- Wheel Joint -->
+    <!-- <joint name="wheel_joint" type="continuous">
+        <parent link="chassis_link"/>
+        <child link="wheel_link"/>
+        <origin xyz="0 0 -0.3" rpy="0 0 0"/>
+    </joint> -->
+</robot>
