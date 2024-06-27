@@ -5,5 +5,7 @@
     <xacro:include filename="chassis.xacro"/>
     <xacro:include filename="wheels.xacro"/>
     <xacro:include filename="caster_wheel.xacro"/>
+    <xacro:include filename="gazebo_control.xacro"/>
+
     <link name="base_link"/>
 </robot>
