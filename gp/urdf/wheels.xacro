@@ -1,42 +1,47 @@
-<?xml version="1.0"?>
-
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
-  
-    <!-- Caster Wheel Link -->
-    <link name="caster_wheel_link">
+
+  <!-- Wheel Link Macro -->
+  <xacro:macro name="wheel_link" params="link_name">
+    <link name="${link_name}">
       <collision>
         <geometry>
-          <sphere radius="${caster_wheel_radius}"/>
+          <cylinder radius="${wheel_radius}" length="${wheel_thickness}"/>
         </geometry>
       </collision>
-      <xacro:inertial_sphere mass="${caster_wheel_mass}" radius="${caster_wheel_radius}">
-        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
-      </xacro:inertial_sphere>
-    </link>
-  
-    <!-- Caster Wheel Joint -->
-    <joint name="caster_wheel_joint" type="fixed">
-      <origin xyz="${caster_wheel_offset_x} 0.0 ${caster_wheel_offset_z}" rpy="0.0 0.0 0.0"/>
-      <parent link="chassis_link"/>
-      <child link="caster_wheel_link"/>
-    </joint>
-  
-    <!-- Caster Holder (Only for visuals) -->
-    <link name="caster_holder">
       <visual>
         <geometry>
-          <cylinder radius="${caster_wheel_radius/2}" length="${caster_wheel_offset_z*2}"/>
+          <cylinder radius="${wheel_radius}" length="${wheel_thickness}"/>
         </geometry>
-        <material name="blue"/>
+        <material name="white"/>
+
       </visual>
+      <xacro:inertial_cylinder mass="${wheel_mass}" length="${wheel_thickness}" radius="${wheel_radius}">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        
+      </xacro:inertial_cylinder>
     </link>
-  
-    <!-- Holder Joint -->
-    <joint name="holder_joint" type="fixed">
-      <origin xyz="${caster_wheel_offset_x} 0.0 0.0" rpy="0.0 0.0 0.0"/>
-      <parent link="chassis_link"/>
-      <child link="caster_holder"/>
+  </xacro:macro>
+
+  <!-- Wheel Joint Macro -->
+  <xacro:macro name="wheel_joint" params="joint_name wheel_name x_offset y_offset roll">
+    <joint name="${joint_name}" type="continuous">
+      <origin xyz="${x_offset} ${y_offset} ${wheel_offset_z}" rpy="${roll} 0.0 0.0"/>
+      <parent link="base_link"/>
+      <child link="${wheel_name}"/>
+      <axis xyz="0.0 0.0 1"/>
     </joint>
-  
-  </robot>
-  
+  </xacro:macro>
+
+  <!-- Left Wheel Link -->
+  <xacro:wheel_link link_name="left_wheel_link"/>
+
+  <!-- Left Wheel Joint -->
+  <xacro:wheel_joint joint_name="left_wheel_joint" wheel_name="left_wheel_link" x_offset="${wheel_offset_x}" y_offset="${wheel_offset_y}" roll="${-pi/2}"/>
+
+  <!-- Right Wheel Link -->
+  <xacro:wheel_link link_name="right_wheel_link"/>
+
+  <!-- Right Wheel Joint -->
+  <xacro:wheel_joint joint_name="right_wheel_joint" wheel_name="right_wheel_link" x_offset="${wheel_offset_x}" y_offset="${-wheel_offset_y}" roll="${pi/2}"/>
+
+</robot>

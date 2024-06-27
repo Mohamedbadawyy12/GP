@@ -26,10 +26,18 @@ def generate_launch_description():
         parameters=[{'use_sim_time': True, 'robot_description': xacro_file.toxml()}],
         output='screen'
     )
+    
+    joint_state_publisher_node = Node(
+        package='joint_state_publisher',
+        executable='joint_state_publisher',
+        name='joint_state_publisher_node',
+        output='screen'
+    )
 
     # create and return launch description object
     return LaunchDescription(
         [
-            robot_state_publisher_node
+            robot_state_publisher_node,
+            joint_state_publisher_node
         ]
     )
