@@ -18,20 +18,37 @@ endif()
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
-
-# Commented out problematic packages
-# find_package(launch REQUIRED)
-# find_package(launch_ros REQUIRED)
-# find_package(ament_index_python REQUIRED)
+find_package(geometry_msgs REQUIRED)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
+  # the following line skips the linter which checks for copyrights
+  # uncomment the line when a copyright and license is not present in all source files
+  #set(ament_cmake_copyright_FOUND TRUE)
+  # the following line skips cpplint (only works in a git repo)
+  # uncomment the line when this package is not in a git repo
+  #set(ament_cmake_cpplint_FOUND TRUE)
   ament_lint_auto_find_test_dependencies()
 endif()
 
+add_executable(cmd_vel_mapper src/cmd_vel_mapper.cpp)
+ament_target_dependencies(cmd_vel_mapper rclcpp geometry_msgs)
+
+install(TARGETS
+   cmd_vel_mapper
+   DESTINATION lib/${PROJECT_NAME}
+ )
+
 install(
-  DIRECTORY urdf launch config rviz worlds
-  DESTINATION share/${PROJECT_NAME}
+  DIRECTORY
+  urdf 
+  launch
+  config
+  worlds
+  rviz
+  src
+  DESTINATION
+  share/${PROJECT_NAME}
 )
 
 ament_package()
